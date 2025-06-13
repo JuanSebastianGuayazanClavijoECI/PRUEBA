@@ -1,4 +1,6 @@
-- 1. El auditor puede acceder a la BD por su rol o usuario:Add commentMore actions
+Add commentMore actions
+
+-- 1. El auditor puede acceder a la BD por su rol o usuario:
 
 CONNECT / AS (Auditor);
 CONNECT Jesus_Pinzon/1000095859;
@@ -35,8 +37,7 @@ FROM VCATEGORIAS;
 
 SELECT *
 FROM VCALIFICACIONES;
-Add comment
-  
+
 -- 4. El auditor trata de modificar datos en la tabla de Árticulos y eliminar datos de la tabla Categorías,
 --    pero la BD le indica que no tiene los permisos suficientes:
 
