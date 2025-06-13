@@ -1,51 +1,33 @@
----------- CODE START ----------
+DECLARE
+    v_xml XMLTYPE := XMLTYPE(q'~<?xml version="1.0" encoding="UTF-8"?>
+<sistema_academico>
+  <directores>
+    <director id_usuario="DIRE1000000563">
+      <nombre>Nancy Torres Castellanos</nombre>
+      <correo>nancy.torres@escuelaing.edu.co</correo>
+      <telefono>3158765432</telefono>
+      <direccion>Carrera 106 #35-48</direccion>
+      <fecha_registro>2020-04-20</fecha_registro>
+      <fecha_nombramiento>2022-06-15</fecha_nombramiento>
+      <nivel_jerarquico>1</nivel_jerarquico>
+      <informes_generados>Informe de gestión académica 2024</informes_generados>
+      <presupuesto>95000.00</presupuesto>
+    </director>
+  </directores>
+</sistema_academico>~');
 
--- Consultas XPath en SQL
+    v_result CLOB;
+BEGIN
+    -- Mostrar parte del contenido del XML
+    DBMS_OUTPUT.PUT_LINE('XML cargado correctamente.');
 
--- 1. Los productos de un extra específico. (Con toda la información)
+    -- Ejemplo de consulta XPath desde el XML en PL/SQL
+    SELECT XMLQuery('/sistema_academico/directores/director/nombre/text()'
+                    PASSING v_xml
+                    RETURNING CONTENT)
+    INTO v_result
+    FROM dual;
 
-SELECT XMLQuery('/Extras/extra[@extra_id="5001"]/producto'
-               PASSING columna_xml
-               RETURNING CONTENT)
-FROM tabla_xml;
-
--- 2. Los extras que lograron propinas mayores a un valor dado.
-
-SELECT XMLQuery('/Extras/extra[propina > 50.00]'
-               PASSING columna_xml
-               RETURNING CONTENT)
-FROM tabla_xml;
-
--- 3. El número de extras por ubicación.
-
-SELECT ubicacion, COUNT(XMLQuery('count(/Extras/extra/producto[ubicacion="comedor"])'
-                        PASSING columna_xml RETURNING CONTENT)) AS cantidad_extras
-FROM tabla_xml
-GROUP BY ubicacion;
-
--- 4. Obtener la lista de extras y sus productos en formato XML.ALTER
-
-SELECT dbms_xmlgen.getxmltype(
-           'SELECT extra_id, reserva_id,
-                   XMLQuery('XMLFOREST(nombre AS "nombre",
-                                        cantidad AS "cantidad",
-                                        precio AS "precio",
-                                        propina AS "propina",
-                                        ubicacion AS "ubicacion")''
-                            PASSING PRODUCTOS
-                            COLUMNS nombre VARCHAR2(50),
-                                    cantidad NUMBER,
-                                    precio NUMBER,
-                                    propina NUMBER,
-                                    ubicacion VARCHAR2(50)) AS xml_data
-FROM Extras;
-
--- 5. Obtener la suma total de propinas por ubicación en formato XML.
-
-SELECT dbms_xmlgen.getxmltype(
-           'SELECT ubicacion, SUM(propina) AS total_propinas
-            FROM Extras
-            GROUP BY ubicacion') AS xml_data
-FROM dual;
-
----------- CODE END ----------
+    DBMS_OUTPUT.PUT_LINE('Nombre del director: ' || v_result);
+END;
+/
