@@ -1,10 +1,6 @@
 
 
-DROP SEQUENCE idauditoria;
-CREATE SEQUENCE idauditoria
-    START WITH 1
-    INCREMENT BY 1
-    NOMAXVALUE;
+
 
 CREATE TABLE evaluaciones (
     a_omes VARCHAR2(6) NOT NULL,
