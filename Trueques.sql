@@ -1,4 +1,42 @@
+- 1. El auditor puede acceder a la BD por su rol o usuario:Add commentMore actions
 
+CONNECT / AS (Auditor);
+CONNECT Jesus_Pinzon/1000095859;
+
+-- 2. Ya que el auditor no tiene acceso completo a la BD de Trueques,
+--    le pide al administrador que le conceda los permisos neccesarios para su evaluación:
+
+-- 2.1.  El administrador ingresa a la BD:
+
+CONNECT / AS (Administrador);
+CONNECT Daniel_Rodriguez/1000076386;
+
+-- 2.2. El administrador le da acceso restringido al auditor a las tablas de Artículos, Categorías y Calificaciones:
+
+GRANT SELECT(id, descripcion, estado, foto, precio, disponible, categoria)
+ON articulos
+TO Jesus_Pinzon;
+
+GRANT SELECT
+ON categorias
+TO Jesus_Pinzon;
+
+GRANT SELECT(articulo, estrella)
+ON calificaciones
+TO Jesus_Pinzon;
+
+-- 3. El auditor consulta las tablas Artículos, Categorías y Calificaciones a través de sus vistas:
+
+SELECT *
+FROM VTRUEQUES_EXITOSOS;
+
+SELECT *
+FROM VCATEGORIAS;
+
+SELECT *
+FROM VCALIFICACIONES;
+Add comment
+  
 -- 4. El auditor trata de modificar datos en la tabla de Árticulos y eliminar datos de la tabla Categorías,
 --    pero la BD le indica que no tiene los permisos suficientes:
 
