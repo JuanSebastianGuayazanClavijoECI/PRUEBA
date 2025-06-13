@@ -1,36 +1,5 @@
 
 
-
-
-CREATE TABLE evaluaciones (
-    a_omes VARCHAR2(6) NOT NULL,
-    tid VARCHAR2(2) NOT NULL,
-    nid VARCHAR2(10) NOT NULL,
-    fecha DATE,
-    descripcion XMLTYPE,
-    reporte VARCHAR2(100) NOT NULL,
-    resultado VARCHAR2(2) NOT NULL 
-);
-
-CREATE TABLE respuestas (
-    a_omes VARCHAR2(6) NOT NULL,
-    respuesta VARCHAR2(50) NOT NULL
-);
-
-
-
-
-
--- CICLO 1: Pruebas
-
--- Prueba de aceptación para el Administrador
-/*
-YO Jesus Pinzon,
-COMO auditor,
-QUIERO realizar una evaluación de los artículos y categorías de la plataforma Trueques,
-PARA PODER validar su funcionamiento bajo los más altos estándares de calidad.
-*/
-
 -- 1. El auditor puede acceder a la BD por su rol o usuario:
 
 CONNECT / AS (Auditor);
